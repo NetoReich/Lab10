@@ -1,0 +1,43 @@
+"""
+'publish.py'
+=========================================
+Publishes an incrementing value to a feed
+
+Author(s): Brent Rubell, Todd Treece for Adafruit Industries
+"""
+# Import standard python modules
+import time
+
+# Import Adafruit IO REST client.
+from Adafruit_IO import Client, Feed
+
+# holds the count for the feed
+run_count = 0
+run_count2 = 0
+
+# Set to your Adafruit IO key.
+# Remember, your key is a secret,
+# so make sure not to publish it when you publish this code!
+
+ADAFRUIT_IO_USERNAME = "NetoReich"
+ADAFRUIT_IO_KEY = "aio_lxbE03wrPUvfNgnZQtlT2sb6jy8R"
+
+
+# Create an instance of the REST client.
+aio = Client(ADAFRUIT_IO_USERNAME, ADAFRUIT_IO_KEY)
+
+# Create a new feed named 'counter'
+feed = Feed(name="Sensor1")
+feed = Feed(name="Sensor2") 
+#feed = Feed(name="SENSOR2") 
+
+
+while True:
+    print('sending count: ', run_count)
+    run_count += 1 
+    run_count2 += 5 
+    aio.send_data('Sensor1', run_count)
+    aio.send_data('Sensor2', run_count2)
+    # Adafruit IO is rate-limited for publishing
+    # so we'll need a delay for calls to aio.send_data()
+    time.sleep(3)
